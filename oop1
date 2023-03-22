@@ -1,0 +1,102 @@
+#include <iostream>
+#include <string>
+#include<cstdio>
+
+using namespace std;
+
+
+class STUDENT {
+private:
+    string name;
+    int course;
+    bool gender;
+
+public:
+    // Конструктори
+    STUDENT() {
+        name = "";
+        course = 0;
+        gender = false;
+        cout << "Конструктор за замовчуванням" << endl;
+    }
+
+    STUDENT(string name, int course, bool gender) {
+        this->name = name;
+        this->course = course;
+        this->gender = gender;
+        cout << "Параметри конструктора - " << endl;
+    }
+
+    STUDENT(string name) {
+        this->name = name;
+        this->course = 0;
+        this->gender = false;
+        cout << "Конструктор з одним параметром під назвою" << endl;
+    }
+
+    STUDENT(const STUDENT& other) {
+        this->name = other.name;
+        this->course = other.course;
+        this->gender = other.gender;
+        cout << "Викликається конструктор копіювання" << endl;
+    }
+
+    // Дестркуктор
+    ~STUDENT() {
+        cout << "Видалити - " << this->name << endl;
+    }
+
+    // Getters and Setters
+    string getName() const {
+        return this->name;
+    }
+
+    void setName(string name) {
+        this->name = name;
+    }
+
+    int getCourse() const {
+        return this->course;
+    }
+
+    void setCourse(int course) {
+        this->course = course;
+    }
+
+    bool getGender() const {
+        return this->gender;
+    }
+
+    void setGender(bool gender) {
+        this->gender = gender;
+    }
+
+    // toString() метод
+    string toString() const {
+        string strGender = (this->gender) ? "чоловiк" : "жiнка";
+        return "Iм'я: " + this->name + ", Курс: " + to_string(this->course) + ", Ствть: " + strGender;
+    }
+
+    //  виклик методу для виведення інформації про об'єкт за допомогою вказівника на метод
+    typedef void (STUDENT::* methodPtr)();
+    methodPtr show = &STUDENT::Show;
+
+    // метод
+    void Show() {
+        cout << "Студент: " << this->name << ", Курс: " << this->course << ", Стать: " << ((this->gender) ? "чоловiк" : "жiнка") << endl;
+    }
+
+};
+
+int main()
+{
+    setlocale(LC_CTYPE, "ukr");
+    STUDENT student1("Цiнцiрук Любомир", 1, true);
+    (student1.*student1.show)();
+
+    // Використання конструктора копіювання
+    STUDENT student2 = student1;
+    (student2.*student2.show)();
+
+    return 0;
+}
